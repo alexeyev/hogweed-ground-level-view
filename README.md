@@ -25,13 +25,13 @@ The images are annotated using https://supervise.ly/ (CE).
 Data for `prepared_data/images/` (CC-BY-4.0) can be downloaded from Zenodo: [5233380](https://zenodo.org/record/5233380).
 
 A more detailed description of the data collection strategy and the dataset in general will be released during autumn.
-Test set will be released in December, by the end of the autumn semester.
+Test set annotations will be released in December, by the end of the autumn semester.
 
 ## Format
 
 The annotations are provided in COCO format. To inspect the annotations manually, please see 
 the jupyter notebook `COCO-formatted-annotations-viewer.ipynb` adapted from the [original Gist](https://gist.github.com/akTwelve/dc79fc8b9ae66828e7c7f648049bc42d) 
-by [akTwelve](https://github.com/akTwelve).
+shared by [akTwelve](https://github.com/akTwelve).
 
 ## How to cite
 
