@@ -38,12 +38,15 @@ by [akTwelve](https://github.com/akTwelve): https://gist.github.com/akTwelve/dc7
 We would appreciate if you cite this dataset as
 
 ```
-@misc{hogweed2021alekseev,
-  author    = {Alekseev~A.M.},
-  title     = {{alexeyev/hogweed-ground-level-view: Sosnowsky's Hogweed Detection: Ground-Level View Dataset}},
-  year      = {2021},
-  url       = {https://github.com/alexeyev/hogweed-ground-level-view},
-  language  = {english}
+@dataset{alekseev_anton_2021_5233380,
+  author       = {Alekseev, Anton},
+  title        = {{Detecting Hogweed on the Ground-Level View Photographs: Dataset}},
+  month        = aug,
+  year         = 2021,
+  publisher    = {Zenodo},
+  version      = {0.1},
+  doi          = {10.5281/zenodo.5233380},
+  url          = {https://doi.org/10.5281/zenodo.5233380}
 }
 ```
 
