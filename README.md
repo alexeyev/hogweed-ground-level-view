@@ -30,8 +30,8 @@ Test set will be released in December, by the end of the autumn semester.
 ## Format
 
 The annotations are provided in COCO format. To inspect the annotations manually, please see 
-the jupyter notebook `COCO-formatted-annotations-viewer.ipynb` adapted from the original Gist 
-by [akTwelve](https://github.com/akTwelve): https://gist.github.com/akTwelve/dc79fc8b9ae66828e7c7f648049bc42d
+the jupyter notebook `COCO-formatted-annotations-viewer.ipynb` adapted from the [original Gist](https://gist.github.com/akTwelve/dc79fc8b9ae66828e7c7f648049bc42d) 
+by [akTwelve](https://github.com/akTwelve).
 
 ## How to cite
 
