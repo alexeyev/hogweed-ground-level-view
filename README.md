@@ -54,6 +54,7 @@ I would like to thank Aleksey Artamonov and Mikhail Evtikhiev for various consul
 ## Other materials
 
 * [A monster that devours Russia](https://www.youtube.com/watch?v=u5NxuEoXHn8) \[YouTube video\]
+* Different species, similar threat: [Giant Hogweed - The UK's Most Dangerous & Toxic Plant](https://www.youtube.com/watch?v=p2iCSHrYjoc) \[YouTube video, possibly disturbing content\]
 
 
 ![Semantic segmentation](example_coco_annotation.jpg?raw=true "Polygons obtained via manual annotation.")
