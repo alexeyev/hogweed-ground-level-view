@@ -13,16 +13,17 @@ and [the related dataset repository](https://github.com/DLopatkin/Heracleum-Data
 We propose a dataset for detecting Sosnowsky's hogweed using the ground-level view as if we're 
 looking through the camera of an **autonomous unmanned ground vehicle** patrolling the hogweed-endangered 
 area (e.g. a week after mowing or poisoning). It is not 100% clear whether this dataset can or should be 
-used for training actual robotic vision algorithms. However, plant detection in the natural environment 
-is quite a challenge, which makes such annotated images collections suitable for competitions 
-and/or ML homeworks. This is a *grassroot* (pun intended) initiative without any external funding (so far).
+used for training actual robotic vision algorithms or synthetic datasets construction. However, plant detection 
+in the natural environment is quite a challenge, which makes such annotated images collections suitable 
+for competitions and/or ML homeworks. This is a *grassroot* (pun intended) initiative without any external 
+funding.
 
 ## Data
 
+Photographic images for the directory `prepared_data/images/` (CC-BY-4.0) can be **downloaded from Zenodo: [5233380](https://zenodo.org/record/5233380)**.
+
 **444** (311/133) photos are taken in different locations in Russia using a Samsung Galaxy A31 camera. 
 The images are annotated using https://supervise.ly/ (CE). 
-
-Data for `prepared_data/images/` (CC-BY-4.0) can be downloaded from Zenodo: [5233380](https://zenodo.org/record/5233380).
 
 A more detailed description of the data collection strategy and the dataset in general will be released during autumn.
 Test set annotations will be released in December, by the end of the autumn semester.
@@ -30,7 +31,7 @@ Test set annotations will be released in December, by the end of the autumn seme
 ## Format
 
 The annotations are provided in COCO format. To inspect the annotations manually, please see 
-the jupyter notebook `COCO-formatted-annotations-viewer.ipynb` adapted from the [original Gist](https://gist.github.com/akTwelve/dc79fc8b9ae66828e7c7f648049bc42d) 
+the Jupyter notebook `COCO-formatted-annotations-viewer.ipynb` adapted from the [original Gist](https://gist.github.com/akTwelve/dc79fc8b9ae66828e7c7f648049bc42d) 
 shared by [akTwelve](https://github.com/akTwelve).
 
 ## How to cite
