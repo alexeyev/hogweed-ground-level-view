@@ -36,7 +36,11 @@ shared by [akTwelve](https://github.com/akTwelve).
 
 ### Classification
 
-To prepare a data directory to train a classifier, run `prepare_data_for_classificatio`
+To prepare a data directory to train a classifier, 
+
+1. download and unpack images from [Zenodo](https://zenodo.org/record/5233380) into the folder `prepared_data/images/`,
+2. run `prepare_data_for_classification.py` (this step will create a few folders and move images into them),
+3. check out the dataloader provided in `dataset.py`.
 
 ## How to cite
 

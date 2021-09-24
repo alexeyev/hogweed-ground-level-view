@@ -2,4 +2,8 @@ prepared_data/images/*
 prepared_data/ann_coco_test.json
 .idea
 .ipynb_checkpoints
+__pycache__
 *.7z
+*~
+*.pyc
+*.csv
