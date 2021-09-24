@@ -34,6 +34,10 @@ The annotations are provided in COCO format. To inspect the annotations manually
 the Jupyter notebook `COCO-formatted-annotations-viewer.ipynb` adapted from the [original Gist](https://gist.github.com/akTwelve/dc79fc8b9ae66828e7c7f648049bc42d) 
 shared by [akTwelve](https://github.com/akTwelve).
 
+### Classification
+
+To prepare a data directory to train a classifier, run `prepare_data_for_classificatio`
+
 ## How to cite
 
 We would appreciate if you cite this dataset as
