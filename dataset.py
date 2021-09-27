@@ -19,6 +19,7 @@ if __name__ == "__main__":
     data_loader = HogweedClassificationDataset(root="prepared_data/images_train",
                                                transform=transforms.Compose([
                                                    transforms.ToTensor(),
+                                                   transforms.RandomRotation((270, 270)),
                                                    transforms.Resize(750)]))
     tensor, label = data_loader.__getitem__(0)
 

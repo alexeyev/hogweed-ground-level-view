@@ -34,7 +34,7 @@ def train(model, train_loader, optimizer, loss_function, current_epoch_number=0)
         loss.backward()
         optimizer.step()
 
-        if batch_idx % 50 == 0:
+        if batch_idx % 10 == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tAveraged Epoch Loss: {:.6f}'.format(
                 current_epoch_number,
                 batch_idx * len(data),
@@ -66,11 +66,12 @@ def test(model, test_loader, loss_function):
 if __name__ == "__main__":
 
     SEED = 100
-    SHORT_SIDE = 300
+    SHORT_SIDE = 600
 
     train_set = HogweedClassificationDataset(root="prepared_data/images_train",
                                              transform=transforms.Compose([
                                                  transforms.ToTensor(),
+                                                 # transforms.RandomRotation((270, 270)),
                                                  transforms.Resize(SHORT_SIDE)]))
 
     print("Classes stats:", pd.Series(train_set.targets).value_counts())
@@ -96,13 +97,11 @@ if __name__ == "__main__":
     # a dummy model that doesn't work; should be replaced
     # with a pretrained model for finetuning
     model = nn.Sequential(
-        nn.Conv2d(in_channels=3, out_channels=16, kernel_size=(5, 5), stride=(1, 1), padding=0),
+        nn.Conv2d(in_channels=3, out_channels=256, kernel_size=(3, 3), stride=(1, 1), padding=0),
         nn.ReLU(),
         nn.AdaptiveMaxPool2d(output_size=(1, 1)),
         nn.Flatten(),
-        nn.Linear(in_features=16, out_features=16),
-        nn.ReLU(),
-        nn.Linear(in_features=16, out_features=2),
+        nn.Linear(in_features=256, out_features=2),
         nn.Softmax(dim=-1)
     )
 
@@ -111,7 +110,7 @@ if __name__ == "__main__":
 
     print("Starting training...")
 
-    for epoch in range(1, 10):
+    for epoch in range(1, 5):
         train(model, train_loader, optimizer, loss_function, epoch)
         test(model, dev_loader, loss_function)
 

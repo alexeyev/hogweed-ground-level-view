@@ -101,5 +101,7 @@ if __name__ == "__main__":
 
     # example how one can read a dataset we have prepared here
     train_dataset = ImageFolder(root="prepared_data/images_train",
-                                transform=transforms.Compose([transforms.ToTensor(), transforms.Resize(750)]))
+                                transform=transforms.Compose([transforms.ToTensor(),
+                                                              transforms.RandomRotation((270, 270)),
+                                                              transforms.Resize(750)]))
     print(train_dataset.__getitem__(2))
