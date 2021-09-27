@@ -51,35 +51,36 @@ if __name__ == "__main__":
     from torchvision.datasets import ImageFolder
     from torchvision import transforms
 
+    ROOT = "../"
     TEST_AVAILABLE = False
 
     train_df = get_df("train")
-    train_df.to_csv("prepared_data/train.csv", index=None)
+    train_df.to_csv(ROOT + "prepared_data/train.csv", index=None)
 
-    do_if_possible(lambda: os.mkdir("prepared_data/images_train"))
-    do_if_possible(lambda: os.mkdir("prepared_data/images_train/has_hogweed"))
-    do_if_possible(lambda: os.mkdir("prepared_data/images_train/no_hogweed"))
+    do_if_possible(lambda: os.mkdir(ROOT + "prepared_data/images_train"))
+    do_if_possible(lambda: os.mkdir(ROOT + "prepared_data/images_train/has_hogweed"))
+    do_if_possible(lambda: os.mkdir(ROOT + "prepared_data/images_train/no_hogweed"))
 
     train_has_hogweed = set(train_df[train_df["has_hogweed"] == 1]["id"])
     train_no_hogweed = set(train_df[train_df["has_hogweed"] == 0]["id"])
 
     if TEST_AVAILABLE:
         test_df = get_df("test")
-        test_df.to_csv("prepared_data/gold.csv", index=None)
-        do_if_possible(lambda: os.mkdir("prepared_data/images_test"))
-        do_if_possible(lambda: os.mkdir("prepared_data/images_test/has_hogweed"))
-        do_if_possible(lambda: os.mkdir("prepared_data/images_test/no_hogweed"))
+        test_df.to_csv(ROOT + "prepared_data/gold.csv", index=None)
+        do_if_possible(lambda: os.mkdir(ROOT + "prepared_data/images_test"))
+        do_if_possible(lambda: os.mkdir(ROOT + "prepared_data/images_test/has_hogweed"))
+        do_if_possible(lambda: os.mkdir(ROOT + "prepared_data/images_test/no_hogweed"))
 
         test_has_hogweed = set(test_df[test_df["has_hogweed"] == 1]["id"])
         test_no_hogweed = set(test_df[test_df["has_hogweed"] == 0]["id"])
 
         test_df["has_hogweed"] = 1
-        test_df.to_csv("prepared_data/sample_submission.csv", index=None)
+        test_df.to_csv(ROOT + "prepared_data/sample_submission.csv", index=None)
 
-        test_df.drop("has_hogweed", axis=1, inplace=True)
-        test_df.to_csv("prepared_data/test.csv", index=None)
+        test_df.drop(ROOT + "has_hogweed", axis=1, inplace=True)
+        test_df.to_csv(ROOT + "prepared_data/test.csv", index=None)
 
-    prefix_images = "prepared_data/images"
+    prefix_images = ROOT + "prepared_data/images"
 
     for f in os.listdir(prefix_images):
 
@@ -100,7 +101,7 @@ if __name__ == "__main__":
             raise Exception("Something's wrong.")
 
     # example how one can read a dataset we have prepared here
-    train_dataset = ImageFolder(root="prepared_data/images_train",
+    train_dataset = ImageFolder(root=ROOT + "prepared_data/images_train",
                                 transform=transforms.Compose([transforms.ToTensor(),
                                                               transforms.RandomRotation((270, 270)),
                                                               transforms.Resize(750)]))
