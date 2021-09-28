@@ -26,7 +26,7 @@ Photographic images for the directory `prepared_data/images/` (CC-BY-4.0) can be
 The images are annotated using https://supervise.ly/ (CE). 
 
 A more detailed description of the data collection strategy and the dataset in general will be released during autumn.
-Test set annotations will be released in December, by the end of the autumn semester.
+Test set annotations will be released after the end of the competition.
 
 ## Format
 
@@ -40,7 +40,7 @@ To prepare a data directory to train a classifier,
 
 1. download and unpack images from [Zenodo](https://zenodo.org/record/5233380) into the folder `prepared_data/images/`,
 2. run `prepare_data_for_classification.py` (this step will create a few folders and move images into them),
-3. check out the dataloader provided in `dataset.py`.
+3. check out the Dataset object provided in `dataset.py` if you are planning to use PyTorch.
 
 ## How to cite
 
