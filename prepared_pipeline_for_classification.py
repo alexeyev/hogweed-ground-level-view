@@ -51,8 +51,9 @@ def test(model, test_loader, loss_function, device):
 
     with torch.no_grad():
         for data, target in test_loader:
+            target = target.to(device)
             output = model(data.to(device))
-            test_loss += loss_function(output, target.to(device)).sum().item()
+            test_loss += loss_function(output, target).sum().item()
             pred = output.argmax(dim=1, keepdim=True)
             correct += pred.eq(target.view_as(pred)).sum().item()
 
@@ -88,7 +89,7 @@ if __name__ == "__main__":
     print("Saving transformed image sample...")
     example(train_set, 10).save('out.jpg')
 
-    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=4,
+    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=64,
                                                shuffle=True, num_workers=4)
     dev_loader = torch.utils.data.DataLoader(Subset(train_set, dev_indices), shuffle=False)
 
