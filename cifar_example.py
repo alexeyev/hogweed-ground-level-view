@@ -87,11 +87,13 @@ if __name__ == "__main__":
     vgg16_pretrained.classifier = nn.Sequential(
         nn.Linear(in_features=512, out_features=10),
         nn.Softmax(dim=-1)
-    ).to(device)
+    )
 
     for child in vgg16_pretrained.features[0:19]:
         for p in child.parameters():
             p.requires_grad = False
+
+    vgg16_pretrained = vgg16_pretrained.to(device)
 
     optimizer = optim.Adam(vgg16_pretrained.parameters())
     loss_function = CrossEntropyLoss()
