@@ -68,22 +68,8 @@ def test(model, test_loader, loss_function, device):
 if __name__ == "__main__":
 
     SEED = 100
-    SHORT_SIDE = 30
-
     train_set = HogweedClassificationDataset(root="prepared_data/images_train",
-                                             transform=transforms.Compose([
-                                                 transforms.ToTensor(),
-                                                 transforms.Resize(SHORT_SIDE)]))
-
-    # print("Classes stats:", pd.Series(train_set.targets).value_counts())
-    print(train_set.class_to_idx)
-    # print(train_set.extensions)
-    print(train_set.samples)
-    # print(len(train_set.samples))
-    # quit()
-
-    # print("Saving transformed image sample...")
-    # example(train_set, 10).save('out.jpg')
+                                             transform=transforms.Compose([transforms.ToTensor()]))
 
     print("Splitting data...")
 
@@ -95,29 +81,7 @@ if __name__ == "__main__":
         random_state=SEED
     )
 
-    # print(pd.Series(np.array(train_set.targets)[train_indices]).value_counts())
-    # print(pd.Series(np.array(train_set.targets)[val_indices]).value_counts())
-
-    # quit()
-
-    # indices = list(range(len(train_set)))
-    # split = int(0.15 * len(train_set))
-    #
-    # np.random.seed(SEED)
-    # np.random.shuffle(indices)
-    #
-    # # todo: stratification?
-    # train_idx, val_idx = indices[split:], indices[:split]
-    #
-    # print(pd.Series(np.array(train_set.targets)[train_idx]).value_counts())
-    # print(pd.Series(np.array(train_set.targets)[val_idx]).value_counts())
-
-    # train_sampler = SubsetRandomSampler(train_idx)
-    # val_sampler = SubsetRandomSampler(val_idx)
-    # train_sampler = SubsetRandomSampler(train_indices)
-    # val_sampler = SubsetRandomSampler(val_indices)
-
-    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=1, shuffle=True)
+    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=32, shuffle=True)
     val_loader = torch.utils.data.DataLoader(Subset(train_set, val_indices))
 
     print("CUDA available?", torch.cuda.is_available())
@@ -140,7 +104,7 @@ if __name__ == "__main__":
 
     print("Starting training...")
 
-    for epoch in range(1, 5):
+    for epoch in range(1, 25):
         train(model, train_loader, optimizer, loss_function, epoch, device)
         test(model, val_loader, loss_function, device)
 
