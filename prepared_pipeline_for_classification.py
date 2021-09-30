@@ -89,7 +89,7 @@ if __name__ == "__main__":
     print("Saving transformed image sample...")
     example(train_set, 10).save('out.jpg')
 
-    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=64,
+    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=32,
                                                shuffle=True, num_workers=4)
     dev_loader = torch.utils.data.DataLoader(Subset(train_set, dev_indices), shuffle=False)
 
