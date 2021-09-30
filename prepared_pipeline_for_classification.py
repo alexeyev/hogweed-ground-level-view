@@ -23,8 +23,6 @@ def train(model, train_loader, optimizer, loss_function, current_epoch_number=0,
 
     for batch_idx, (data, target) in enumerate(train_loader):
 
-        print(batch_idx, ":", target)
-
         optimizer.zero_grad()
         output = model(data.to(device))
         loss = loss_function(output, target.to(device))
@@ -92,19 +90,21 @@ if __name__ == "__main__":
     # a dummy model that doesn't work; should be replaced
     # with a pretrained model for finetuning
     model = nn.Sequential(
-        nn.Conv2d(in_channels=3, out_channels=5, kernel_size=(3, 3), stride=(3, 3), padding=0),
+        nn.Conv2d(in_channels=3, out_channels=64, kernel_size=(3, 3), stride=(1, 1), padding=0),
+        nn.ReLU(),
+        nn.Conv2d(in_channels=64, out_channels=64, kernel_size=(3, 3), stride=(2, 2), padding=0),
         nn.ReLU(),
         nn.AdaptiveMaxPool2d(output_size=(1, 1)),
         nn.Flatten(),
-        nn.Linear(in_features=5, out_features=2)
+        nn.Linear(in_features=64, out_features=2)
     ).to(device)
 
-    optimizer = optim.AdamW(model.parameters())
+    optimizer = optim.AdamW(model.parameters(), amsgrad=True)
     loss_function = loss.CrossEntropyLoss()
 
     print("Starting training...")
 
-    for epoch in range(1, 25):
+    for epoch in range(1, 100):
         train(model, train_loader, optimizer, loss_function, epoch, device)
         test(model, val_loader, loss_function, device)
 
