@@ -12,6 +12,8 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
 ## Libs
+WORKDIR /root
+ADD ./ /root
 RUN python -m  pip install -r requirements.txt
 
 ## Data
