@@ -1,13 +1,14 @@
 # coding: utf-8
 import pandas as pd
 import torch
-from sklearn.model_selection import train_test_split
+import numpy as np
 from torch import nn
 from torch import optim
 from torch.nn.modules import loss
-from torch.utils.data import Subset
+from torch.utils.data import Subset, SubsetRandomSampler
 from torchvision import transforms
 
+# from sklearn.model_selection import train_test_split
 from dataset import HogweedClassificationDataset
 
 
@@ -76,22 +77,36 @@ if __name__ == "__main__":
                                                  transforms.Resize(SHORT_SIDE)]))
 
     print("Classes stats:", pd.Series(train_set.targets).value_counts())
-    print("Splitting data...")
-
-    train_indices, dev_indices, _, _ = train_test_split(
-        range(len(train_set)), train_set.targets,
-        stratify=train_set.targets,
-        test_size=0.15,
-        shuffle=True,
-        random_state=SEED
-    )
 
     print("Saving transformed image sample...")
     example(train_set, 10).save('out.jpg')
 
-    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=32,
-                                               shuffle=True, num_workers=4)
-    dev_loader = torch.utils.data.DataLoader(Subset(train_set, dev_indices), shuffle=False)
+    print("Splitting data...")
+    print("Splitting data...")
+
+    # train_indices, dev_indices, _, _ = train_test_split(
+    #     range(len(train_set)), train_set.targets,
+    #     stratify=train_set.targets,
+    #     test_size=0.15,
+    #     shuffle=True,
+    #     random_state=SEED
+    # )
+
+
+    num_train = len(train_set)
+    indices = list(range(num_train))
+    split = int(0.15 * num_train)
+
+    np.random.seed(SEED)
+    np.random.shuffle(indices)
+
+    # todo: stratification?
+    train_idx, val_idx = indices[split:], indices[:split]
+    train_sampler = SubsetRandomSampler(train_idx)
+    val_sampler = SubsetRandomSampler(val_idx)
+
+    train_loader = torch.utils.data.DataLoader(train_set, batch_size=32, sampler=train_sampler)
+    dev_loader = torch.utils.data.DataLoader(train_set, sampler=val_sampler)
 
     print("CUDA available?", torch.cuda.is_available())
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
