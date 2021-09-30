@@ -67,7 +67,7 @@ if __name__ == "__main__":
     train_dataset = torchvision.datasets.CIFAR10(root='./data', train=True,
                                                  download=True, transform=transform)
 
-    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=16,
+    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64,
                                                shuffle=True, num_workers=2)
 
     test_dataset = torchvision.datasets.CIFAR10(root='./data', train=False,
@@ -95,7 +95,6 @@ if __name__ == "__main__":
             p.requires_grad = False
 
     vgg16_pretrained = vgg16_pretrained.to(device)
-
     optimizer = optim.Adam(vgg16_pretrained.parameters())
     loss_function = CrossEntropyLoss()
 
