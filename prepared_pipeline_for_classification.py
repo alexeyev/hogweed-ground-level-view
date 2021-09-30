@@ -17,7 +17,7 @@ def example(dataset, i):
     return transforms.ToPILImage()(dataset[i][0])
 
 
-def train(model, train_loader, optimizer, loss_function, current_epoch_number=0):
+def train(model, train_loader, optimizer, loss_function, current_epoch_number=0, device=None):
     """ Training a provided model using provided data etc. """
     model.train()
     loss_accum = 0
@@ -25,8 +25,8 @@ def train(model, train_loader, optimizer, loss_function, current_epoch_number=0)
     for batch_idx, (data, target) in enumerate(train_loader):
 
         optimizer.zero_grad()
-        output = model(data)
-        loss = loss_function(output, target)
+        output = model(data.to(device))
+        loss = loss_function(output, target.to(device))
 
         # saving loss for stats
         loss_accum += loss.item() / len(data)
@@ -43,7 +43,7 @@ def train(model, train_loader, optimizer, loss_function, current_epoch_number=0)
                 loss_accum / (batch_idx + 1)))
 
 
-def test(model, test_loader, loss_function):
+def test(model, test_loader, loss_function, device):
     """ Testing an already trained model using the provided data from `test_loader` """
 
     model.eval()
@@ -51,8 +51,8 @@ def test(model, test_loader, loss_function):
 
     with torch.no_grad():
         for data, target in test_loader:
-            output = model(data)
-            test_loss += loss_function(output, target).sum().item()
+            output = model(data.to(device))
+            test_loss += loss_function(output, target.to(device)).sum().item()
             pred = output.argmax(dim=1, keepdim=True)
             correct += pred.eq(target.view_as(pred)).sum().item()
 
@@ -92,6 +92,9 @@ if __name__ == "__main__":
                                                shuffle=True, num_workers=4)
     dev_loader = torch.utils.data.DataLoader(Subset(train_set, dev_indices), shuffle=False)
 
+    print("CUDA available?", torch.cuda.is_available())
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
     print("Setting a model...")
 
     # a dummy model that doesn't work; should be replaced
@@ -103,7 +106,7 @@ if __name__ == "__main__":
         nn.Flatten(),
         nn.Linear(in_features=256, out_features=2),
         nn.Softmax(dim=-1)
-    )
+    ).to(device)
 
     optimizer = optim.Adam(model.parameters())
     loss_function = loss.CrossEntropyLoss()
@@ -111,7 +114,7 @@ if __name__ == "__main__":
     print("Starting training...")
 
     for epoch in range(1, 5):
-        train(model, train_loader, optimizer, loss_function, epoch)
-        test(model, dev_loader, loss_function)
+        train(model, train_loader, optimizer, loss_function, epoch, device)
+        test(model, dev_loader, loss_function, device)
 
     print("It is done.")
