@@ -68,7 +68,7 @@ def test(model, test_loader, loss_function, device):
 if __name__ == "__main__":
 
     SEED = 100
-    train_set = HogweedClassificationDataset(root="prepared_data/images_train",
+    train_set = HogweedClassificationDataset(root="prepared_data/images_train_resized",
                                              transform=transforms.Compose([transforms.ToTensor()]))
 
     print("Splitting data...")
