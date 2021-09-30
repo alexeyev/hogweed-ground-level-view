@@ -6,7 +6,7 @@ import shutil
 import pandas as pd
 
 
-def get_df(segment: str = "train"):
+def get_df(segment: str = "train", root="../"):
     """
         Preparing classification datasets based on `ann_coco_*.json`
 
@@ -24,8 +24,8 @@ def get_df(segment: str = "train"):
     :return: pandas dataframe with ids and labels
     """
 
-    j = json.load(open(f"prepared_data/ann_coco_{segment}.json", "r", encoding="utf-8"))
-    file_list = [l.strip() for l in open(f"prepared_data/{segment}_file_list.txt", "r") if l.strip()]
+    j = json.load(open(root + f"prepared_data/ann_coco_{segment}.json", "r", encoding="utf-8"))
+    file_list = [l.strip() for l in open(root + f"prepared_data/{segment}_file_list.txt", "r") if l.strip()]
     image_has_anno = []
 
     for anno in j["annotations"]:
@@ -51,10 +51,10 @@ if __name__ == "__main__":
     from torchvision.datasets import ImageFolder
     from torchvision import transforms
 
-    ROOT = "../"
+    ROOT = "./"
     TEST_AVAILABLE = False
 
-    train_df = get_df("train")
+    train_df = get_df("train", root=ROOT)
     train_df.to_csv(ROOT + "prepared_data/train.csv", index=None)
 
     do_if_possible(lambda: os.mkdir(ROOT + "prepared_data/images_train"))

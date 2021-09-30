@@ -15,7 +15,3 @@ ENV LC_ALL C.UTF-8
 WORKDIR /root
 ADD ./ /root
 RUN python -m  pip install -r requirements.txt
-
-## Data
-RUN zenodo_get 5233380
-RUN 7z x images.7z && mv images/* prepared_data/images/

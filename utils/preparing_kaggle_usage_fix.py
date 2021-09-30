@@ -22,4 +22,3 @@ public_ids = set(public.id)
 df["Usage"] = df["id"].map(lambda x: "Public" if x in public_ids else "Private")
 
 df.to_csv(ROOT + "prepared_data/gold_with_usage.csv", index=None)
-
