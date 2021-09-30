@@ -85,8 +85,9 @@ if __name__ == "__main__":
     vgg16_pretrained = vgg16(pretrained=True)
     vgg16_pretrained.avgpool = nn.AdaptiveAvgPool2d(output_size=(1, 1))
     vgg16_pretrained.classifier = nn.Sequential(
-        nn.Linear(in_features=512, out_features=10),
-        nn.Softmax(dim=-1)
+        nn.Linear(in_features=512, out_features=512),
+        nn.ReLU(),
+        nn.Linear(in_features=512, out_features=10)
     )
 
     for child in vgg16_pretrained.features[0:19]:
