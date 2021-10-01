@@ -2,13 +2,13 @@
 import os
 
 from torchvision import transforms
+from tqdm import tqdm
 
 from dataset import HogweedClassificationDataset
 
 
 def example(dataset, i):
     """ Preparing an image for viewing or saving """
-    # print("oh", dataset[i][1])
     return transforms.ToPILImage()(dataset[i][0])
 
 
@@ -34,5 +34,5 @@ try:
 except:
     pass
 
-for idx, (image_path, image_label) in enumerate(train_set.samples):
+for idx, (image_path, image_label) in tqdm(enumerate(train_set.samples)):
     example(train_set, idx).save(image_path.replace("images_train", "images_train_resized"))
