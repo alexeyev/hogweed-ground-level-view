@@ -100,6 +100,8 @@ if __name__ == "__main__":
         nn.Linear(in_features=64, out_features=2)
     )
 
+    pretrained_resnet = pretrained_resnet.to(device)
+
     optimizer = optim.AdamW(pretrained_resnet.parameters(), amsgrad=True)
     loss_function = loss.CrossEntropyLoss()
 

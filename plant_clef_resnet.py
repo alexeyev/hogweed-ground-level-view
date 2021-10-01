@@ -27,6 +27,5 @@ def load_plant_clef_resnet18(path: str = "plants_epoch_100/model_best.pth.tar",
 
     # load the model weights
     model.load_state_dict(checkpoint['state_dict'])
-    model.to(device)
 
     return model
