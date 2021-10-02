@@ -74,7 +74,7 @@ if __name__ == "__main__":
         random_state=SEED
     )
 
-    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=128, shuffle=True)
+    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=3, shuffle=True)
     val_loader = torch.utils.data.DataLoader(Subset(train_set, val_indices), shuffle=False, batch_size=128)
 
     print("CUDA available?", torch.cuda.is_available())
@@ -90,13 +90,14 @@ if __name__ == "__main__":
     pretrained_resnet.fc = nn.Sequential(
         nn.Linear(in_features=512, out_features=512),
         nn.ReLU(),
-        nn.Linear(in_features=512, out_features=1)
+        nn.Linear(in_features=512, out_features=1),
+        nn.Sigmoid()
     )
 
     pretrained_resnet = pretrained_resnet.to(device)
 
     optimizer = optim.AdamW(pretrained_resnet.parameters())
-    loss_function = loss.BCEWithLogitsLoss()
+    loss_function = loss.BCELoss()
 
     print("Starting training...")
 
