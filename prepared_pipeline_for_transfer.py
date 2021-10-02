@@ -74,7 +74,7 @@ if __name__ == "__main__":
         random_state=SEED
     )
 
-    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=4, shuffle=True)
+    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=128, shuffle=True)
     val_loader = torch.utils.data.DataLoader(Subset(train_set, val_indices), shuffle=False, batch_size=128)
 
     print("CUDA available?", torch.cuda.is_available())
@@ -88,14 +88,14 @@ if __name__ == "__main__":
             param.requires_grad = False
 
     pretrained_resnet.fc = nn.Sequential(
-        nn.Linear(in_features=512, out_features=64),
+        nn.Linear(in_features=512, out_features=512),
         nn.ReLU(),
-        nn.Linear(in_features=64, out_features=1)
+        nn.Linear(in_features=512, out_features=1)
     )
 
     pretrained_resnet = pretrained_resnet.to(device)
 
-    optimizer = optim.Adam(pretrained_resnet.parameters())
+    optimizer = optim.AdamW(pretrained_resnet.parameters())
     loss_function = loss.BCEWithLogitsLoss()
 
     print("Starting training...")
@@ -103,5 +103,10 @@ if __name__ == "__main__":
     for epoch in range(1, 100):
         train(pretrained_resnet, train_loader, optimizer, loss_function, epoch, device)
         test(pretrained_resnet, val_loader, loss_function, device)
+
+        if epoch == 5:
+            for ch_id, child in enumerate(pretrained_resnet.children()):
+                for _, param in enumerate(child.parameters()):
+                    param.requires_grad = True
 
     print("It is done.")
