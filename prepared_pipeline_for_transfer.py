@@ -47,11 +47,7 @@ def test(model, test_loader, loss_function, device):
         for data, target in test_loader:
             target = target.float().unsqueeze(dim=-1).to(device)
             output = model(data.to(device))
-            # print(target)
-            # print(output)
             pred = (torch.sign(output - 0.5) + 1) / 2
-            # print("correct", pred.eq(target.view_as(pred)).sum().item())
-            # print()
 
             test_loss += loss_function(output, target).sum().item()
             correct += pred.eq(target.view_as(pred)).sum().item()
@@ -74,7 +70,7 @@ if __name__ == "__main__":
     train_indices, val_indices, _, _ = train_test_split(
         range(len(train_set)), train_set.targets,
         stratify=train_set.targets,
-        test_size=0.15,
+        test_size=0.3,
         shuffle=True,
         random_state=SEED
     )
