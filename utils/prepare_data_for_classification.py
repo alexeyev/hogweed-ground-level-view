@@ -71,6 +71,7 @@ if __name__ == "__main__":
         do_if_possible(lambda: os.mkdir(ROOT + "prepared_data/images_test/has_hogweed"))
         do_if_possible(lambda: os.mkdir(ROOT + "prepared_data/images_test/no_hogweed"))
 
+
         test_has_hogweed = set(test_df[test_df["has_hogweed"] == 1]["id"])
         test_no_hogweed = set(test_df[test_df["has_hogweed"] == 0]["id"])
 
@@ -79,6 +80,11 @@ if __name__ == "__main__":
 
         test_df.drop(ROOT + "has_hogweed", axis=1, inplace=True)
         test_df.to_csv(ROOT + "prepared_data/test.csv", index=None)
+    else:
+        do_if_possible(lambda: os.mkdir(ROOT + "prepared_data/images_test"))
+        do_if_possible(lambda: os.mkdir(ROOT + "prepared_data/images_test/unknown"))
+
+
 
     prefix_images = ROOT + "prepared_data/images"
 
@@ -99,6 +105,8 @@ if __name__ == "__main__":
             shutil.move(prefix_images + "/" + f, prefix_images + "_test/no_hogweed")
         elif TEST_AVAILABLE:
             raise Exception("Something's wrong.")
+        elif not TEST_AVAILABLE:
+            shutil.move(prefix_images + "/" + f, prefix_images + "_test/unknown")
 
     # example how one can read a dataset we have prepared here
     train_dataset = ImageFolder(root=ROOT + "prepared_data/images_train",

@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
     print("Starting training...")
 
-    for epoch in range(1, 100):
+    for epoch in range(1, 2):
         train(pretrained_resnet, train_loader, optimizer, loss_function, epoch, device)
         test(pretrained_resnet, val_loader, loss_function, device)
 
@@ -112,4 +112,18 @@ if __name__ == "__main__":
         #         for _, param in enumerate(child.parameters()):
         #             param.requires_grad = True
 
-    print("It is done.")
+
+    # todo: generate CSV
+    # test_set = HogweedClassificationDataset(root="prepared_data/images_test_resized",
+    #                                         transform=transforms.Compose([transforms.ToTensor()]))
+    # test_loader = torch.utils.data.DataLoader(test_set, batch_size=1, shuffle=False)
+    #
+    # pretrained_resnet.eval()
+    # test_loss, correct = 0, 0
+    #
+    # with torch.no_grad():
+    #     for data, _ in test_loader:
+    #         output = pretrained_resnet(data.to(device))
+    #         pred = (torch.sign(output - 0.5) + 1) / 2
+    #
+    # print("It is done.")
