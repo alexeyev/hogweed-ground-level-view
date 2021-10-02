@@ -49,11 +49,11 @@ def test(model, test_loader, loss_function, device):
             output = model(data.to(device))
             print(target)
             print(output)
+            pred = (torch.sign(output - 0.5) + 1) / 2
             print("correct", pred.eq(target.view_as(pred)).sum().item())
             print()
 
             test_loss += loss_function(output, target).sum().item()
-            pred = (torch.sign(output - 0.5) + 1) / 2
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
@@ -79,7 +79,7 @@ if __name__ == "__main__":
         random_state=SEED
     )
 
-    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=32, shuffle=True)
+    train_loader = torch.utils.data.DataLoader(Subset(train_set, train_indices), batch_size=8, shuffle=True)
     val_loader = torch.utils.data.DataLoader(Subset(train_set, val_indices), shuffle=False, batch_size=128)
 
     print("CUDA available?", torch.cuda.is_available())
