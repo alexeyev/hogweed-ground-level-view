@@ -23,7 +23,7 @@ def load_plant_clef_resnet18(path: str = "plants_epoch_100/model_best.pth.tar",
     model = models.__dict__[arch](pretrained=True)
 
     # reshape the model's output
-    model = reshape_model(model, arch, checkpoint['num_classes'])
+    model.fc = torch.nn.Linear(model.fc.in_features, checkpoint["num_classes"])
 
     # load the model weights
     model.load_state_dict(checkpoint['state_dict'])

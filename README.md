@@ -31,16 +31,21 @@ Test set annotations will be released after the end of the competition.
 ## Format
 
 The annotations are provided in COCO format. To inspect the annotations manually, please see 
-the Jupyter notebook `COCO-formatted-annotations-viewer.ipynb` adapted from the [original Gist](https://gist.github.com/akTwelve/dc79fc8b9ae66828e7c7f648049bc42d) 
+the Jupyter notebook `COCO-formatted-annotations-viewer.ipynb` adapted from 
+the [original Gist](https://gist.github.com/akTwelve/dc79fc8b9ae66828e7c7f648049bc42d) 
 shared by [akTwelve](https://github.com/akTwelve).
 
 ### Classification
 
-To prepare a data directory to train a classifier, 
+To train a classifier, 
 
-1. download and unpack images from [Zenodo](https://zenodo.org/record/5233380) into the folder `prepared_data/images/`,
-2. run `prepare_data_for_classification.py` (this step will create a few folders and move images into them),
-3. check out the Dataset object provided in `dataset.py` if you are planning to use PyTorch.
+1. run a `get_data.sh` script,
+2. check out the Dataset object provided in `dataset.py` if you are planning to use PyTorch,
+3. consider using a baseline implemented in `prepared_pipeline_for_transfer.py` -- 
+based on a fine-tuned `ResNet18` model prepared by Dustin Franklin @dusty-nv. The training process
+ is described in the [tutorial](https://github.com/dusty-nv/jetson-inference/blob/master/docs/pytorch-plants.md).
+The model is available for [downloading](https://nvidia.box.com/s/dslt9b0hqq7u71o6mzvy07w0onn0tw66). All rights
+are reserved by NVIDIA.
 
 ## How to cite
 
@@ -61,7 +66,8 @@ We would appreciate if you cite this dataset as
 
 ## Acknowledgements
 
-I would like to thank Aleksey Artamonov and Mikhail Evtikhiev for various consultations and proofreading.
+I would like to thank Aleksey Artamonov, Andrey Savchenko and Mikhail Evtikhiev 
+for various consultations and proofreading.
 
 ## Other materials
 
