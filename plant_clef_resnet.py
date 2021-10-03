@@ -1,7 +1,6 @@
 # coding: utf-8
 import torch
 from torchvision import models
-from plant_clef_reshape import reshape_model
 
 
 def load_plant_clef_resnet18(path: str = "plants_epoch_100/model_best.pth.tar",
