@@ -3,6 +3,7 @@ import os
 from argparse import ArgumentParser
 
 from torchvision import transforms
+from torchvision.datasets import ImageFolder
 from tqdm import tqdm
 
 from dataset import HogweedClassificationDataset
@@ -47,10 +48,10 @@ if __name__ == "__main__":
 
     else:
 
-        test_set = HogweedClassificationDataset(root="prepared_data/images_test",
-                                                transform=transforms.Compose([
-                                                    transforms.ToTensor(),
-                                                    transforms.Resize(args.size)]))
+        test_set = ImageFolder(root="prepared_data/images_test",
+                               transform=transforms.Compose([
+                                   transforms.ToTensor(),
+                                   transforms.Resize(args.size)]))
 
         try:
             os.mkdir("prepared_data/images_test_resized")
