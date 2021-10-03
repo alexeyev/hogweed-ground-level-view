@@ -1,4 +1,5 @@
 # coding: utf-8
+import pandas as pd
 import torch
 from sklearn.model_selection import train_test_split
 from torch import nn
@@ -6,6 +7,7 @@ from torch import optim
 from torch.nn.modules import loss
 from torch.utils.data import Subset
 from torchvision import transforms
+from torchvision.datasets import ImageFolder
 
 from dataset import HogweedClassificationDataset
 from plant_clef_resnet import load_plant_clef_resnet18
@@ -103,27 +105,33 @@ if __name__ == "__main__":
 
     print("Starting training...")
 
-    for epoch in range(1, 2):
+    for epoch in range(200):
         train(pretrained_resnet, train_loader, optimizer, loss_function, epoch, device)
         test(pretrained_resnet, val_loader, loss_function, device)
 
-        # if epoch == 5:
-        #     for ch_id, child in enumerate(pretrained_resnet.children()):
-        #         for _, param in enumerate(child.parameters()):
-        #             param.requires_grad = True
+        if epoch == 50:
+            for ch_id, child in enumerate(pretrained_resnet.children()):
+                for _, param in enumerate(child.parameters()):
+                    param.requires_grad = True
 
+    ### GENERATING SUBMISSION ###
+    test_set = ImageFolder(root="prepared_data/images_test_resized",
+                           transform=transforms.Compose([transforms.ToTensor()]))
+    test_loader = torch.utils.data.DataLoader(test_set, batch_size=1, shuffle=False)
+    ids = [name.replace(".jpg", "").split("/")[-1].split("\\")[-1] for name, _ in test_set.samples]
 
-    # todo: generate CSV
-    # test_set = HogweedClassificationDataset(root="prepared_data/images_test_resized",
-    #                                         transform=transforms.Compose([transforms.ToTensor()]))
-    # test_loader = torch.utils.data.DataLoader(test_set, batch_size=1, shuffle=False)
-    #
-    # pretrained_resnet.eval()
-    # test_loss, correct = 0, 0
-    #
-    # with torch.no_grad():
-    #     for data, _ in test_loader:
-    #         output = pretrained_resnet(data.to(device))
-    #         pred = (torch.sign(output - 0.5) + 1) / 2
-    #
-    # print("It is done.")
+    pretrained_resnet.eval()
+    results = {"id": [], "has_hogweed": []}
+
+    with torch.no_grad():
+        for i, (data, _) in enumerate(test_loader):
+            # # checking if the order is the same just in case
+            # assert torch.all(test_set[i][0] == data).detach().item()
+            output = pretrained_resnet(data.to(device))
+            pred = (torch.sign(output - 0.5) + 1) / 2
+            results["id"].append(ids[i])
+            results["has_hogweed"].append(int(pred.detach().item()))
+
+    pd.DataFrame(results).to_csv("submission.csv", index=None)
+
+    print("It is done.")

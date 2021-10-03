@@ -1,5 +1,6 @@
 # coding: utf-8
 import os
+from argparse import ArgumentParser
 
 from torchvision import transforms
 from tqdm import tqdm
@@ -12,47 +13,54 @@ def example(dataset, i):
     return transforms.ToPILImage()(dataset[i][0])
 
 
-SHORT_SIDE = 300
+if __name__ == "__main__":
 
-train_set = HogweedClassificationDataset(root="prepared_data/images_train",
-                                         transform=transforms.Compose([
-                                             transforms.ToTensor(),
-                                             transforms.Resize(SHORT_SIDE)]))
+    parser = ArgumentParser()
+    parser.add_argument("--size", type=int, default=300)
+    parser.add_argument("--segment", type=str, default="test")
+    args = parser.parse_args()
 
-try:
-    os.mkdir("prepared_data/images_train_resized")
-except:
-    pass
+    train_set = HogweedClassificationDataset(root="prepared_data/images_train",
+                                             transform=transforms.Compose([
+                                                 transforms.ToTensor(),
+                                                 transforms.Resize(args.size)]))
 
-try:
-    os.mkdir("prepared_data/images_train_resized/has_hogweed")
-except:
-    pass
+    if args.segment == "train":
 
-try:
-    os.mkdir("prepared_data/images_train_resized/no_hogweed")
-except:
-    pass
+        try:
+            os.mkdir("prepared_data/images_train_resized")
+        except:
+            pass
 
-for idx, (image_path, image_label) in tqdm(enumerate(train_set.samples)):
-    example(train_set, idx).save(image_path.replace("images_train", "images_train_resized"))
+        try:
+            os.mkdir("prepared_data/images_train_resized/has_hogweed")
+        except:
+            pass
 
+        try:
+            os.mkdir("prepared_data/images_train_resized/no_hogweed")
+        except:
+            pass
 
-test_set = HogweedClassificationDataset(root="prepared_data/images_test",
-                                         transform=transforms.Compose([
-                                             transforms.ToTensor(),
-                                             transforms.Resize(SHORT_SIDE)]))
+        for idx, (image_path, image_label) in tqdm(enumerate(train_set.samples)):
+            example(train_set, idx).save(image_path.replace("images_train", "images_train_resized"))
 
+    else:
 
-try:
-    os.mkdir("prepared_data/images_test_resized")
-except:
-    pass
+        test_set = HogweedClassificationDataset(root="prepared_data/images_test",
+                                                transform=transforms.Compose([
+                                                    transforms.ToTensor(),
+                                                    transforms.Resize(args.size)]))
 
-try:
-    os.mkdir("prepared_data/images_test_resized/unknown")
-except:
-    pass
+        try:
+            os.mkdir("prepared_data/images_test_resized")
+        except:
+            pass
 
-for idx, (image_path, image_label) in tqdm(enumerate(train_set.samples)):
-    example(test_set, idx).save(image_path.replace("images_test", "images_test_resized"))
+        try:
+            os.mkdir("prepared_data/images_test_resized/unknown")
+        except:
+            pass
+
+        for idx, (image_path, image_label) in tqdm(enumerate(test_set.samples)):
+            example(test_set, idx).save(image_path.replace("images_test", "images_test_resized"))

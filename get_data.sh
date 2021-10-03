@@ -8,3 +8,5 @@ echo "Unpacking images"
 
 echo "Splitting into folders"
 python3 utils/prepare_data_for_classification.py
+python3 prepare_resized_data.py --size 300 --segment train
+python3 prepare_resized_data.py --size 300 --segment test
